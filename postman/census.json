@@ -1,0 +1,1197 @@
+{
+  "info": {
+    "name": "Census Data API - Complete Collection",
+    "description": "Complete API collection for Census data with ALL filters, parameters, and use cases",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "datasetId",
+      "value": "ACSDT5Y2022",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Setup & Management",
+      "item": [
+        {
+          "name": "Import Catalog (Fast - No Metadata)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fetchMetadata\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/census/initial-import",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "initial-import"]
+            },
+            "description": "Import ~2000 dataset catalog (2-5 minutes). No metadata."
+          }
+        },
+        {
+          "name": "Import Catalog (With Metadata - Slow)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fetchMetadata\": true,\n  \"maxDatasets\": 50,\n  \"batchSize\": 10,\n  \"vintageFilter\": [2022, 2023],\n  \"onlyAvailable\": true,\n  \"startIndex\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/census/initial-import",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "initial-import"]
+            },
+            "description": "Import catalog WITH metadata for specific datasets"
+          }
+        },
+        {
+          "name": "Sync Metadata (All Datasets)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"limit\": 100,\n  \"batchSize\": 10,\n  \"delayMs\": 2000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/census/sync-metadata",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "sync-metadata"]
+            },
+            "description": "Sync metadata for up to 100 datasets"
+          }
+        },
+        {
+          "name": "Sync Metadata (Specific Dataset)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"https://api.census.gov/data/id/ACSDT5Y2022\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/census/sync-metadata",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "sync-metadata"]
+            },
+            "description": "Sync metadata for one specific dataset"
+          }
+        },
+        {
+          "name": "Get Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "stats"]
+            },
+            "description": "View database statistics and sync status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Datasets - Basic Queries",
+      "item": [
+        {
+          "name": "Get All Datasets (Default)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"]
+            },
+            "description": "Get first 50 datasets with metadata"
+          }
+        },
+        {
+          "name": "Get Datasets (Pagination)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?page=2&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "page", "value": "2"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Datasets (Without Metadata - Faster)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?includeMetadata=false&limit=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "includeMetadata", "value": "false"},
+                {"key": "limit", "value": "50"}
+              ]
+            },
+            "description": "Lighter response without metadata content"
+          }
+        },
+        {
+          "name": "Get Datasets (With Metadata - Full)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?includeMetadata=true&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "includeMetadata", "value": "true"},
+                {"key": "limit", "value": "20"}
+              ]
+            },
+            "description": "Full metadata content included"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Datasets - Filter by Vintage",
+      "item": [
+        {
+          "name": "By Exact Vintage (2022)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?vintage=2022",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "vintage", "value": "2022"}]
+            }
+          }
+        },
+        {
+          "name": "By Vintage Range (2020-2023)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?vintageFrom=2020&vintageTo=2023",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "vintageFrom", "value": "2020"},
+                {"key": "vintageTo", "value": "2023"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Vintage From (2020+)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?vintageFrom=2020",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "vintageFrom", "value": "2020"}]
+            }
+          }
+        },
+        {
+          "name": "Vintage To (Up to 2020)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?vintageTo=2020",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "vintageTo", "value": "2020"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Datasets - Filter by Type",
+      "item": [
+        {
+          "name": "Microdata Only",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?type=microdata",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "type", "value": "microdata"}]
+            }
+          }
+        },
+        {
+          "name": "Cube Only",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?type=cube",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "type", "value": "cube"}]
+            }
+          }
+        },
+        {
+          "name": "Aggregate Only",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?type=aggregate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "type", "value": "aggregate"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Datasets - Filter by Path",
+      "item": [
+        {
+          "name": "ACS Datasets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?datasetPath=acs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "datasetPath", "value": "acs"}]
+            },
+            "description": "American Community Survey datasets"
+          }
+        },
+        {
+          "name": "CBP Datasets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?datasetPath=cbp",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "datasetPath", "value": "cbp"}]
+            },
+            "description": "County Business Patterns"
+          }
+        },
+        {
+          "name": "PEP Datasets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?datasetPath=pep",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "datasetPath", "value": "pep"}]
+            },
+            "description": "Population Estimates Program"
+          }
+        },
+        {
+          "name": "CPS Datasets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?datasetPath=cps",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "datasetPath", "value": "cps"}]
+            },
+            "description": "Current Population Survey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Datasets - Text Search",
+      "item": [
+        {
+          "name": "Search: 'income'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=income",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "search", "value": "income"}]
+            }
+          }
+        },
+        {
+          "name": "Search: 'population'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=population",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "search", "value": "population"}]
+            }
+          }
+        },
+        {
+          "name": "Search: 'housing'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=housing",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "search", "value": "housing"}]
+            }
+          }
+        },
+        {
+          "name": "Search: 'employment'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=employment",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "search", "value": "employment"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Datasets - Metadata Filters",
+      "item": [
+        {
+          "name": "Has Geography Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?hasGeography=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "hasGeography", "value": "true"}]
+            }
+          }
+        },
+        {
+          "name": "Has Variables Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?hasVariables=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "hasVariables", "value": "true"}]
+            }
+          }
+        },
+        {
+          "name": "Has Tags Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?hasTags=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "hasTags", "value": "true"}]
+            }
+          }
+        },
+        {
+          "name": "Geography Synced",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?geographySynced=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "geographySynced", "value": "true"}]
+            }
+          }
+        },
+        {
+          "name": "Variables Synced",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?variablesSynced=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "variablesSynced", "value": "true"}]
+            }
+          }
+        },
+        {
+          "name": "Full Metadata Synced",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?geographySynced=true&variablesSynced=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "geographySynced", "value": "true"},
+                {"key": "variablesSynced", "value": "true"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Datasets - Keywords & Tags",
+      "item": [
+        {
+          "name": "Filter by Keyword",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?keyword=census",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "keyword", "value": "census"}]
+            }
+          }
+        },
+        {
+          "name": "Filter by Tag",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?tag=demographics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [{"key": "tag", "value": "demographics"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Datasets - Sorting",
+      "item": [
+        {
+          "name": "Sort by Vintage (Desc)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?sortBy=vintage&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "sortBy", "value": "vintage"},
+                {"key": "sortOrder", "value": "desc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sort by Vintage (Asc)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?sortBy=vintage&sortOrder=asc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "sortBy", "value": "vintage"},
+                {"key": "sortOrder", "value": "asc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sort by Title",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?sortBy=title&sortOrder=asc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "sortBy", "value": "title"},
+                {"key": "sortOrder", "value": "asc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sort by Created Date",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?sortBy=created_at&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "sortBy", "value": "created_at"},
+                {"key": "sortOrder", "value": "desc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sort by Last Synced",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?sortBy=last_synced_at&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "sortBy", "value": "last_synced_at"},
+                {"key": "sortOrder", "value": "desc"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Datasets - Complex Filters",
+      "item": [
+        {
+          "name": "2022 ACS with Metadata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?vintage=2022&datasetPath=acs&variablesSynced=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "vintage", "value": "2022"},
+                {"key": "datasetPath", "value": "acs"},
+                {"key": "variablesSynced", "value": "true"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Recent Housing Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=housing&vintageFrom=2020&variablesSynced=true&geographySynced=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "search", "value": "housing"},
+                {"key": "vintageFrom", "value": "2020"},
+                {"key": "variablesSynced", "value": "true"},
+                {"key": "geographySynced", "value": "true"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Employment Microdata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=employment&type=microdata&vintageFrom=2018",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "search", "value": "employment"},
+                {"key": "type", "value": "microdata"},
+                {"key": "vintageFrom", "value": "2018"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Complete ACS 5-Year Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=American Community Survey 5-Year&variablesSynced=true&geographySynced=true&sortBy=vintage&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "search", "value": "American Community Survey 5-Year"},
+                {"key": "variablesSynced", "value": "true"},
+                {"key": "geographySynced", "value": "true"},
+                {"key": "sortBy", "value": "vintage"},
+                {"key": "sortOrder", "value": "desc"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11. Single Dataset",
+      "item": [
+        {
+          "name": "Get by ID (String)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get by ID (UUID)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/c489d950-0ee5-460f-b0bc-7bfe5fb0e4dc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "c489d950-0ee5-460f-b0bc-7bfe5fb0e4dc"]
+            }
+          }
+        },
+        {
+          "name": "Get Without Metadata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}?includeMetadata=false",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}"],
+              "query": [{"key": "includeMetadata", "value": "false"}]
+            }
+          }
+        },
+        {
+          "name": "Get With Raw Metadata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}?includeRaw=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}"],
+              "query": [{"key": "includeRaw", "value": "true"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12. Variables - Basic",
+      "item": [
+        {
+          "name": "Get All Variables",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"]
+            }
+          }
+        },
+        {
+          "name": "Variables (Pagination)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?page=2&limit=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [
+                {"key": "page", "value": "2"},
+                {"key": "limit", "value": "100"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Variables (Large Page)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?limit=500",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "limit", "value": "500"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13. Variables - Search",
+      "item": [
+        {
+          "name": "Search: 'income'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?search=income",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "search", "value": "income"}]
+            }
+          }
+        },
+        {
+          "name": "Search: 'median'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?search=median",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "search", "value": "median"}]
+            }
+          }
+        },
+        {
+          "name": "Search: 'population'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?search=population",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "search", "value": "population"}]
+            }
+          }
+        },
+        {
+          "name": "Search: 'household'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?search=household",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "search", "value": "household"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "14. Variables - Filter by Concept",
+      "item": [
+        {
+          "name": "Concept: 'Income'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?concept=Income",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "concept", "value": "Income"}]
+            }
+          }
+        },
+        {
+          "name": "Concept: 'Employment'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?concept=Employment",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "concept", "value": "Employment"}]
+            }
+          }
+        },
+        {
+          "name": "Concept: 'Housing'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?concept=Housing",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "concept", "value": "Housing"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "15. Variables - Filter by Type",
+      "item": [
+        {
+          "name": "Type: int (Numbers)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?predicateType=int",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "predicateType", "value": "int"}]
+            }
+          }
+        },
+        {
+          "name": "Type: string (Text)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?predicateType=string",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "predicateType", "value": "string"}]
+            }
+          }
+        },
+        {
+          "name": "Type: float (Decimals)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?predicateType=float",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "predicateType", "value": "float"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "16. Variables - Filter by Group",
+      "item": [
+        {
+          "name": "Group: B01001 (Sex by Age)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?group=B01001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "group", "value": "B01001"}]
+            }
+          }
+        },
+        {
+          "name": "Group: B19013 (Income)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?group=B19013",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [{"key": "group", "value": "B19013"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "17. Variables - Complex Filters",
+      "item": [
+        {
+          "name": "Income Variables (Int Type)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?search=income&predicateType=int",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [
+                {"key": "search", "value": "income"},
+                {"key": "predicateType", "value": "int"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Median Variables by Concept",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/variables?search=median&concept=Income",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "variables"],
+              "query": [
+                {"key": "search", "value": "median"},
+                {"key": "concept", "value": "Income"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "18. Geography",
+      "item": [
+        {
+          "name": "Get Geography Levels",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/{{datasetId}}/geography",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "{{datasetId}}", "geography"]
+            }
+          }
+        },
+        {
+          "name": "Get Geography (by UUID)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/c489d950-0ee5-460f-b0bc-7bfe5fb0e4dc/geography",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "c489d950-0ee5-460f-b0bc-7bfe5fb0e4dc", "geography"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "19. Global Search",
+      "item": [
+        {
+          "name": "Search All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/search?q=population",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "search"],
+              "query": [{"key": "q", "value": "population"}]
+            }
+          }
+        },
+        {
+          "name": "Search Datasets Only",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/search?q=income&type=datasets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "search"],
+              "query": [
+                {"key": "q", "value": "income"},
+                {"key": "type", "value": "datasets"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Variables Only",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/search?q=median income&type=variables&limit=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "search"],
+              "query": [
+                {"key": "q", "value": "median income"},
+                {"key": "type", "value": "variables"},
+                {"key": "limit", "value": "100"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search: 'housing'",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/search?q=housing&limit=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "search"],
+              "query": [
+                {"key": "q", "value": "housing"},
+                {"key": "limit", "value": "50"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "20. Filter Options",
+      "item": [
+        {
+          "name": "Get All Filter Options",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/filters",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "filters"]
+            },
+            "description": "Get all available vintages, keywords, tags, paths, etc."
+          }
+        }
+      ]
+    },
+    {
+      "name": "21. Real-World Use Cases",
+      "item": [
+        {
+          "name": "Property Demographics (2022 ACS)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=American Community Survey&vintage=2022&variablesSynced=true&geographySynced=true&datasetPath=acs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "search", "value": "American Community Survey"},
+                {"key": "vintage", "value": "2022"},
+                {"key": "variablesSynced", "value": "true"},
+                {"key": "geographySynced", "value": "true"},
+                {"key": "datasetPath", "value": "acs"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Market Analysis (Recent Data)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?vintageFrom=2020&variablesSynced=true&includeMetadata=true&limit=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "vintageFrom", "value": "2020"},
+                {"key": "variablesSynced", "value": "true"},
+                {"key": "includeMetadata", "value": "true"},
+                {"key": "limit", "value": "50"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Find Income Variables",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/search?q=median household income&type=variables&limit=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "search"],
+              "query": [
+                {"key": "q", "value": "median household income"},
+                {"key": "type", "value": "variables"},
+                {"key": "limit", "value": "50"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Housing Data for Listings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets?search=housing&vintage=2022&variablesSynced=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets"],
+              "query": [
+                {"key": "search", "value": "housing"},
+                {"key": "vintage", "value": "2022"},
+                {"key": "variablesSynced", "value": "true"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Population by ZIP Code",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/census/datasets/ACSDT5Y2022/variables?search=population&predicateType=int&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "census", "datasets", "ACSDT5Y2022", "variables"],
+              "query": [
+                {"key": "search", "value": "population"},
+                {"key": "predicateType", "value": "int"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

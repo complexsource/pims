@@ -1,0 +1,1020 @@
+{
+  "info": {
+    "name": "MLS PMS System - Complete API Collection",
+    "description": "Complete API collection for Property Management System with MLS Grid integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Properties",
+      "item": [
+        {
+          "name": "Get All Properties",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"]
+            },
+            "description": "Get all properties without filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Properties with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Get properties with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by City",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?city=Miami",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "city",
+                  "value": "Miami"
+                }
+              ]
+            },
+            "description": "Filter properties by city"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by State",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?stateOrProvince=FL",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "stateOrProvince",
+                  "value": "FL"
+                }
+              ]
+            },
+            "description": "Filter properties by state"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Price Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?minPrice=100000&maxPrice=500000",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "100000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "500000"
+                }
+              ]
+            },
+            "description": "Filter by price range"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Bedrooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?minBedrooms=3&maxBedrooms=5",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "minBedrooms",
+                  "value": "3"
+                },
+                {
+                  "key": "maxBedrooms",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Filter by bedroom count"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Bathrooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?minBathrooms=2&maxBathrooms=4",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "minBathrooms",
+                  "value": "2"
+                },
+                {
+                  "key": "maxBathrooms",
+                  "value": "4"
+                }
+              ]
+            },
+            "description": "Filter by bathroom count"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Property Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?propertyType=Residential",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "propertyType",
+                  "value": "Residential"
+                }
+              ]
+            },
+            "description": "Filter by property type (Residential, Commercial, Land, etc.)"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?standardStatus=Active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                }
+              ]
+            },
+            "description": "Filter by status (Active, Pending, Closed, etc.)"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Living Area",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?minLivingArea=1500&maxLivingArea=3000",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "minLivingArea",
+                  "value": "1500"
+                },
+                {
+                  "key": "maxLivingArea",
+                  "value": "3000"
+                }
+              ]
+            },
+            "description": "Filter by living area (square feet)"
+          },
+          "response": []
+        },
+        {
+          "name": "Combined Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?city=Miami&stateOrProvince=FL&minPrice=200000&maxPrice=600000&minBedrooms=3&minBathrooms=2&propertyType=Residential&standardStatus=Active&page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "city",
+                  "value": "Miami"
+                },
+                {
+                  "key": "stateOrProvince",
+                  "value": "FL"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "200000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "600000"
+                },
+                {
+                  "key": "minBedrooms",
+                  "value": "3"
+                },
+                {
+                  "key": "minBathrooms",
+                  "value": "2"
+                },
+                {
+                  "key": "propertyType",
+                  "value": "Residential"
+                },
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Multiple filters combined"
+          },
+          "response": []
+        },
+        {
+          "name": "Sort by Price Ascending",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?sortBy=listPrice&sortOrder=asc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "sortBy",
+                  "value": "listPrice"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "Sort properties by price (lowest first)"
+          },
+          "response": []
+        },
+        {
+          "name": "Sort by Price Descending",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?sortBy=listPrice&sortOrder=desc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "sortBy",
+                  "value": "listPrice"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Sort properties by price (highest first)"
+          },
+          "response": []
+        },
+        {
+          "name": "Sort by Date (Newest First)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?sortBy=modificationTimestamp&sortOrder=desc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "sortBy",
+                  "value": "modificationTimestamp"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Sort by modification date (newest first)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Property by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "property-uuid-here"
+                }
+              ]
+            },
+            "description": "Get single property by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Sync Properties",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties/sync",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties", "sync"]
+            },
+            "description": "Sync properties from MLS Grid"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "Get All Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/members",
+              "host": ["{{base_url}}"],
+              "path": ["api", "members"]
+            },
+            "description": "Get all members/agents"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Members with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/members?page=1&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "members"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get members with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Member Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/members?memberStatus=Active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "members"],
+              "query": [
+                {
+                  "key": "memberStatus",
+                  "value": "Active"
+                }
+              ]
+            },
+            "description": "Filter members by status"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Member Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/members?memberType=Realtor",
+              "host": ["{{base_url}}"],
+              "path": ["api", "members"],
+              "query": [
+                {
+                  "key": "memberType",
+                  "value": "Realtor"
+                }
+              ]
+            },
+            "description": "Filter members by type"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Member by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/members/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "members", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "member-uuid-here"
+                }
+              ]
+            },
+            "description": "Get single member by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Sync Members",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/members/sync",
+              "host": ["{{base_url}}"],
+              "path": ["api", "members", "sync"]
+            },
+            "description": "Sync members from MLS Grid"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Offices",
+      "item": [
+        {
+          "name": "Get All Offices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/offices",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offices"]
+            },
+            "description": "Get all offices"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Offices with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/offices?page=1&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offices"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get offices with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Office Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/offices?officeStatus=Active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offices"],
+              "query": [
+                {
+                  "key": "officeStatus",
+                  "value": "Active"
+                }
+              ]
+            },
+            "description": "Filter offices by status"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Office Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/offices?officeType=Main",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offices"],
+              "query": [
+                {
+                  "key": "officeType",
+                  "value": "Main"
+                }
+              ]
+            },
+            "description": "Filter offices by type"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Office City",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/offices?officeCity=Miami",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offices"],
+              "query": [
+                {
+                  "key": "officeCity",
+                  "value": "Miami"
+                }
+              ]
+            },
+            "description": "Filter offices by city"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Office by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/offices/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offices", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "office-uuid-here"
+                }
+              ]
+            },
+            "description": "Get single office by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Sync Offices",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/offices/sync",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offices", "sync"]
+            },
+            "description": "Sync offices from MLS Grid"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Open Houses",
+      "item": [
+        {
+          "name": "Get All Open Houses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/openhouses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "openhouses"]
+            },
+            "description": "Get all open houses"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Open Houses with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/openhouses?page=1&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "openhouses"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get open houses with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upcoming Open Houses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/openhouses?upcoming=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "openhouses"],
+              "query": [
+                {
+                  "key": "upcoming",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Get only upcoming open houses"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Listing Key",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/openhouses?listingKey=LISTING_KEY_HERE",
+              "host": ["{{base_url}}"],
+              "path": ["api", "openhouses"],
+              "query": [
+                {
+                  "key": "listingKey",
+                  "value": "LISTING_KEY_HERE"
+                }
+              ]
+            },
+            "description": "Get open houses for specific property"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by Date Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/openhouses?startDate=2025-10-01&endDate=2025-10-31",
+              "host": ["{{base_url}}"],
+              "path": ["api", "openhouses"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2025-10-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-10-31"
+                }
+              ]
+            },
+            "description": "Get open houses within date range"
+          },
+          "response": []
+        },
+        {
+          "name": "Get OpenHouse by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/openhouses/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "openhouses", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "openhouse-uuid-here"
+                }
+              ]
+            },
+            "description": "Get single open house by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Sync Open Houses",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/openhouses/sync",
+              "host": ["{{base_url}}"],
+              "path": ["api", "openhouses", "sync"]
+            },
+            "description": "Sync open houses from MLS Grid"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "MLS Sync",
+      "item": [
+        {
+          "name": "Initial Import (All Data)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/mls/initial-import",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mls", "initial-import"]
+            },
+            "description": "Initial full import of all MLS data (Properties, Members, Offices, OpenHouses)"
+          },
+          "response": []
+        },
+        {
+          "name": "Sync All Resources",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/mls/sync-all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mls", "sync-all"]
+            },
+            "description": "Sync all resources (incremental update)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Advanced Property Searches",
+      "item": [
+        {
+          "name": "Luxury Homes (500K+, 4+ bed, 3+ bath)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?minPrice=500000&minBedrooms=4&minBathrooms=3&standardStatus=Active&sortBy=listPrice&sortOrder=desc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "500000"
+                },
+                {
+                  "key": "minBedrooms",
+                  "value": "4"
+                },
+                {
+                  "key": "minBathrooms",
+                  "value": "3"
+                },
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "listPrice"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Starter Homes (Under 250K, 2-3 bed)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?maxPrice=250000&minBedrooms=2&maxBedrooms=3&standardStatus=Active&sortBy=listPrice&sortOrder=asc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "maxPrice",
+                  "value": "250000"
+                },
+                {
+                  "key": "minBedrooms",
+                  "value": "2"
+                },
+                {
+                  "key": "maxBedrooms",
+                  "value": "3"
+                },
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "listPrice"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Family Homes (3-4 bed, 2000+ sqft)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?minBedrooms=3&maxBedrooms=4&minLivingArea=2000&propertyType=Residential&standardStatus=Active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "minBedrooms",
+                  "value": "3"
+                },
+                {
+                  "key": "maxBedrooms",
+                  "value": "4"
+                },
+                {
+                  "key": "minLivingArea",
+                  "value": "2000"
+                },
+                {
+                  "key": "propertyType",
+                  "value": "Residential"
+                },
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Listings (Last 7 Days)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?standardStatus=Active&sortBy=modificationTimestamp&sortOrder=desc&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "modificationTimestamp"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Commercial Properties",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?propertyType=Commercial&standardStatus=Active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "propertyType",
+                  "value": "Commercial"
+                },
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Land/Lots",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/properties?propertyType=Land&standardStatus=Active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "propertyType",
+                  "value": "Land"
+                },
+                {
+                  "key": "standardStatus",
+                  "value": "Active"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

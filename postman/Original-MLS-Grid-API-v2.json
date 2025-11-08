@@ -1,0 +1,422 @@
+{
+  "info": {
+    "name": "MLS Grid - Divine Marketplace VOW (Verified Working)",
+    "description": "Only endpoints that returned actual data",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "b1f969d45f62cf4d5e25e0726e192e15e6e37fd6",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.mlsgrid.com/v2"
+    }
+  ],
+  "item": [
+    {
+      "name": "✅ PROPERTY ENDPOINTS",
+      "item": [
+        {
+          "name": "1. Get All Properties (Initial Import)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Property?$filter=MlgCanView eq true&$expand=Media,Rooms,UnitTypes&$top=200",
+              "host": ["{{base_url}}"],
+              "path": ["Property"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media,Rooms,UnitTypes"
+                },
+                {
+                  "key": "$top",
+                  "value": "200"
+                }
+              ]
+            },
+            "description": "✅ RETURNS DATA - Get all active properties with media, rooms, and unit types"
+          }
+        },
+        {
+          "name": "4. Active Listings Only",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Property?$filter=StandardStatus eq 'Active' and MlgCanView eq true&$expand=Media&$top=100",
+              "host": ["{{base_url}}"],
+              "path": ["Property"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "StandardStatus eq 'Active' and MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media"
+                },
+                {
+                  "key": "$top",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "✅ RETURNS DATA - Filter by Active status"
+          }
+        },
+        {
+          "name": "Get Properties with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Property?$filter=MlgCanView eq true&$expand=Media,Rooms,UnitTypes&$top=500&$skip=0",
+              "host": ["{{base_url}}"],
+              "path": ["Property"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media,Rooms,UnitTypes"
+                },
+                {
+                  "key": "$top",
+                  "value": "500"
+                },
+                {
+                  "key": "$skip",
+                  "value": "0",
+                  "description": "Increment by 500 for next page"
+                }
+              ]
+            },
+            "description": "For paginating through all properties"
+          }
+        },
+        {
+          "name": "Get Properties - Use @odata.nextLink",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Property?$filter=MlgCanView eq true&$expand=Media,Rooms,UnitTypes",
+              "host": ["{{base_url}}"],
+              "path": ["Property"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media,Rooms,UnitTypes"
+                }
+              ]
+            },
+            "description": "Use @odata.nextLink from response for pagination"
+          }
+        },
+        {
+          "name": "Filter by PropertyType",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Property?$filter=PropertyType eq 'Residential' and MlgCanView eq true&$expand=Media",
+              "host": ["{{base_url}}"],
+              "path": ["Property"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "PropertyType eq 'Residential' and MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media"
+                }
+              ]
+            },
+            "description": "Filter by property type"
+          }
+        },
+        {
+          "name": "Filter by StandardStatus",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Property?$filter=StandardStatus eq 'Pending' and MlgCanView eq true&$expand=Media",
+              "host": ["{{base_url}}"],
+              "path": ["Property"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "StandardStatus eq 'Pending' and MlgCanView eq true",
+                  "description": "Options: Active, Pending, ActiveUnderContract, Closed, Canceled, Expired, Withdrawn"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "✅ MEMBER ENDPOINTS",
+      "item": [
+        {
+          "name": "7. Get All Members/Agents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Member?$filter=MlgCanView eq true&$expand=Media",
+              "host": ["{{base_url}}"],
+              "path": ["Member"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media"
+                }
+              ]
+            },
+            "description": "✅ RETURNS DATA - Get all active members/agents"
+          }
+        },
+        {
+          "name": "Get Members with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Member?$filter=MlgCanView eq true&$expand=Media&$top=500",
+              "host": ["{{base_url}}"],
+              "path": ["Member"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media"
+                },
+                {
+                  "key": "$top",
+                  "value": "500"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "✅ OFFICE ENDPOINTS",
+      "item": [
+        {
+          "name": "10. Get All Offices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Office?$filter=MlgCanView eq true&$expand=Media",
+              "host": ["{{base_url}}"],
+              "path": ["Office"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media"
+                }
+              ]
+            },
+            "description": "✅ RETURNS DATA - Get all active offices"
+          }
+        },
+        {
+          "name": "Get Offices with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/Office?$filter=MlgCanView eq true&$expand=Media&$top=500",
+              "host": ["{{base_url}}"],
+              "path": ["Office"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$expand",
+                  "value": "Media"
+                },
+                {
+                  "key": "$top",
+                  "value": "500"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "✅ OPENHOUSE ENDPOINTS",
+      "item": [
+        {
+          "name": "13. Get All Open Houses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/OpenHouse?$filter=MlgCanView eq true",
+              "host": ["{{base_url}}"],
+              "path": ["OpenHouse"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                }
+              ]
+            },
+            "description": "✅ RETURNS DATA - Get all open houses"
+          }
+        },
+        {
+          "name": "Get Open Houses with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/OpenHouse?$filter=MlgCanView eq true&$top=500",
+              "host": ["{{base_url}}"],
+              "path": ["OpenHouse"],
+              "query": [
+                {
+                  "key": "$filter",
+                  "value": "MlgCanView eq true"
+                },
+                {
+                  "key": "$top",
+                  "value": "500"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "✅ METADATA",
+      "item": [
+        {
+          "name": "17. Get API Metadata",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/$metadata",
+              "host": ["{{base_url}}"],
+              "path": ["$metadata"]
+            },
+            "description": "✅ RETURNS DATA - Get complete API schema"
+          }
+        }
+      ]
+    }
+  ]
+}
